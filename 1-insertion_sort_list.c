@@ -10,7 +10,13 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *head = *list, *curr = head->next, *next = curr->next, *back;
+	listint_t *curr, *next, *back;
+
+	if (!(*list))
+		return;
+
+	curr = (*list)->next;
+	next = curr->next;
 
 	while (curr)
 	{
