@@ -27,7 +27,7 @@ Write in the file `2-O`, the big O notations of the time complexity of the Selec
 * in the average case
 * in the worst case
 
-#### [3 - quick_sort.c]() - [3-O]()
+#### [3 - quick_sort.c](https://github.com/KVAcodes/sorting_algorithms/blob/main/3-quick_sort.c) - [3-O](https://github.com/KVAcodes/sorting_algorithms/blob/main/3-O)
 #####	Write a function that sorts an array of integers in ascending order using the [Quick sort](https://en.wikipedia.org/wiki/Quicksort) algorithm.
 Write in the file `3-O`, the big O notations of the time complexity of the Quick sort algorithm, with 1 notation per line:
 * in the best case
@@ -35,4 +35,8 @@ Write in the file `3-O`, the big O notations of the time complexity of the Quick
 * in the worst case
 
 ### ADVANCED
+#### [100 - shell_sort.c]()
+#####	Write a function that sorts an array of integers in ascending order using the [Shell sort](https://en.wikipedia.org/wiki/Shellsort) algorithm, using the `Knuth sequence`.
 
+#### []()
+###	
