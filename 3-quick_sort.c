@@ -1,75 +1,95 @@
 #include "sort.h"
 
+void swap_ints(int *a, int *b);
+int lomuto_partition(int *array, size_t size, int left, int right);
+void lomuto_sort(int *array, size_t size, int left, int right);
+void quick_sort(int *array, size_t size);
+
 /**
- * quick_sort - sorts an array of integer in ascending order using the
- *		Quick sort algorithm.
- * @array: The array to sort.
- * @size: The size of array <array>.
+ * swap_ints - Swap two integers in an array.
+ * @a: The first integer to swap.
+ * @b: The second integer to swap.
+ */
+void swap_ints(int *a, int *b)
+{
+	int tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+/**
+ * lomuto_partition - Order a subset of an array of integers according to
+ *                    the lomuto partition scheme (last element as pivot).
+ * @array: The array of integers.
+ * @size: The size of the array.
+ * @left: The starting index of the subset to order.
+ * @right: The ending index of the subset to order.
  *
- * Return: Nothing(void).
+ * Return: The final partition index.
+ */
+int lomuto_partition(int *array, size_t size, int left, int right)
+{
+	int *pivot, above, below;
+
+	pivot = array + right;
+	for (above = below = left; below < right; below++)
+	{
+		if (array[below] < *pivot)
+		{
+			if (above < below)
+			{
+				swap_ints(array + below, array + above);
+				print_array(array, size);
+			}
+			above++;
+		}
+	}
+
+	if (array[above] > *pivot)
+	{
+		swap_ints(array + above, pivot);
+		print_array(array, size);
+	}
+
+	return (above);
+}
+
+/**
+ * lomuto_sort - Implement the quicksort algorithm through recursion.
+ * @array: An array of integers to sort.
+ * @size: The size of the array.
+ * @left: The starting index of the array partition to order.
+ * @right: The ending index of the array partition to order.
+ *
+ * Description: Uses the Lomuto partition scheme.
+ */
+void lomuto_sort(int *array, size_t size, int left, int right)
+{
+	int part;
+
+	if (right - left > 0)
+	{
+		part = lomuto_partition(array, size, left, right);
+		lomuto_sort(array, size, left, part - 1);
+		lomuto_sort(array, size, part + 1, right);
+	}
+}
+
+/**
+ * quick_sort - Sort an array of integers in ascending
+ *              order using the quicksort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ *
+ * Description: Uses the Lomuto partition scheme. Prints
+ *              the array after each swap of two elements.
  */
 void quick_sort(int *array, size_t size)
 {
-	if (size < 2)
+	if (array == NULL || size < 2)
 		return;
 
-	quick_sort_recursion(array, 0, size - 1, size);
-}
-
-/**
- * partition - partitions a portion of an array using the last element
- *	       of the portion as the pivot.
- * @array: the entire array.
- * @start: start index of the portion.
- * @end: last index of the portion.
- * @size: size of array.
- *
- * Description: This function takes in an array and the start and end indices
- * of the portion, it uses the last element in the portion as a pivot and sets
- * every elem less and greater than it to the left and right of it respectively
- * and returns the index of the pivot at the end of the partitioning.
- *
- * Return: the index of pivot.
- */
-size_t partition(int *array, int start, int end, size_t size)
-{
-	int pivot = array[end], pIndex = start, count, tmp;
-
-	for (count = start; count < end; count++)
-	{
-		if (array[count] <= pivot)
-		{
-			tmp = array[count];
-			array[count] = array[pIndex];
-			array[pIndex] = tmp;
-			pIndex++;
-		}
-	}
-	array[end] = array[pIndex];
-	array[pIndex] = pivot;
-
-	print_array(array, size);
-
-	return (pIndex);
-}
-
-/**
- * quick_sort_recursion - solves the recursion aspect of quick sort.
- * @array: the array to sort.
- * @start: start of portion.
- * @end: end of portion
- * @size: size of array
- *
- * Return: Nothing(void function).
- */
-void quick_sort_recursion(int *array, int start, int end, size_t size)
-{
-	int pIndex;
-
-	if (start < end)
-	{
-		pIndex = partition(array, start, end, size);
-		quick_sort_recursion(array, start, pIndex - 1, size);
-		quick_sort_recursion(array, pIndex + 1, end, size);
-	}
+	lomuto_sort(array, size, 0, size - 1);
 }
